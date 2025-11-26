@@ -1,0 +1,14 @@
+    :root{--cell-size:44px;--thick:3px;--thin:1px}
+    body{font-family:Arial,Helvetica,sans-serif;display:flex;min-height:100vh;align-items:center;justify-content:center;background:#f7f7f7}
+    .sudoku{border-collapse:collapse;}
+    .sudoku td{padding:0;border:var(--thin) solid #999}
+    .cell{width:var(--cell-size);height:var(--cell-size);box-sizing:border-box;border:none;font-size:20px;text-align:center}
+    /* thicker borders for 3x3 blocks */
+    .sudoku tr:nth-child(3n) td{border-bottom:var(--thick) solid #333}
+    .sudoku tr td:nth-child(3n){border-right:var(--thick) solid #333}
+    .sudoku tr:first-child td{border-top:var(--thick) solid #333}
+    .sudoku tr td:first-child{border-left:var(--thick) solid #333}
+    /* focus */
+    .cell:focus{outline:2px solid #2b8cff}
+    .controls{margin-top:16px;text-align:center}
+    button{padding:6px 10px;margin:0 6px}
