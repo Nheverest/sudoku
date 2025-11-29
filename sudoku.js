@@ -2,15 +2,19 @@ const ROW_LENGTH = 9
 const MAX_CELL_ID = ROW_LENGTH * ROW_LENGTH;
 var grid = new Array(MAX_CELL_ID);
 
-function solve() {
-  initGrid();
-  for (let cellId = 0; cellId < MAX_CELL_ID; cellId++) {
-    processCell(cellId);
-  }
-}
 function initGrid() {
   for (let i = 0; i < MAX_CELL_ID; i++) {
     grid[i] = document.getElementById(i).value;
+  }
+}
+
+function solve() {
+  initGrid();
+  if (processCell(0)) {
+    displayResult();
+  } else {
+    // no solution
+    alert("No solution found :-(")
   }
 }
 
@@ -21,21 +25,91 @@ function processCell(cellId) {
       if (isValueValidForCell(cellId, i)) {
         found = true;
         grid[cellId] = i;
-        // debug: temporarily display the value assigned
-        //document.getElementById(i).value = grid[i];
+        show_console(cellId);
         if (cellId == MAX_CELL_ID - 1) {
-          displayResult();
           return true;
-        } else {
-          processCell(cellId + 1);
         }
+        found = processCell(cellId + 1);
       }
     }
+    if (!found) {
+      grid[cellId] = "";
+    }
+    return found;
   } else if (cellId == MAX_CELL_ID - 1) {
-    displayResult();
+    return true;
   } else {
-    processCell(cellId + 1);
+    return processCell(cellId + 1);
   }
+}
+
+function show_console(max_val) {
+  let str = "";
+  for (let k = 0; k < max_val + 1; k++) {
+    str += grid[k]
+    if ((k + 1) % ROW_LENGTH == 0) {
+      str += '\n';
+    }
+  }
+  console.log(str);
+
+}
+
+function displayResult() {
+  // display result
+  for (let i = 0; i < MAX_CELL_ID; i++) {
+    document.getElementById(i).value = grid[i];
+  }
+  if (!checkResult()) {
+    alert("Something went wrong. Check console logs")
+  }
+}
+
+function checkResult() {
+  initGrid();
+
+  let result = true;
+  // check rows
+  for (let i = 0; i < ROW_LENGTH; i++) {
+    let sum = 0;
+    let usage = [0, 0, 0, 0, 0, 0, 0, 0, 0];
+    for (let j = 0; j < ROW_LENGTH; j++) {
+      let currentValue = Number(grid[i * ROW_LENGTH + j]);
+      sum += currentValue;
+      if (usage[currentValue - 1] === 0) {
+        usage[currentValue - 1] = 1;
+      } else {
+        console.log("Number " + currentValue + " has been used more than once in row " + (i + 1));
+        result = false;
+      }
+    }
+    if (sum !== ROW_LENGTH * (ROW_LENGTH + 1) / 2) {
+      console.log("Sum for row " + (i+1) + " is " + sum);
+      result = false;
+    }
+  }
+
+  // check columns
+  for (let i = 0; i < ROW_LENGTH; i++) {
+    let sum = 0;
+    let usage = [0, 0, 0, 0, 0, 0, 0, 0, 0];
+    for (let j = 0; j < ROW_LENGTH; j++) {
+      let currentValue = Number(grid[i + j * ROW_LENGTH]);
+      sum += currentValue;
+
+      if (usage[currentValue - 1] === 0) {
+        usage[currentValue - 1] = 1;
+      } else {
+        console.log("Number " + currentValue + " has been used more than once in column " + (i + 1));
+        result = false;
+      }
+    }
+    if (sum !== ROW_LENGTH * (ROW_LENGTH + 1) / 2) {
+      console.log("Sum for col " + (i+1) + " is " + sum);
+      result = false;
+    }
+  }
+  return result;
 }
 
 function isValueValidForCell(cellId, value) {
@@ -54,19 +128,6 @@ function isValueValidForCell(cellId, value) {
     }
   }
   return true;
-}
-
-function displayResult() {
-  let solved = true;
-  for (let i = 0; i < MAX_CELL_ID; i++) {
-    document.getElementById(i).value = grid[i];
-    if (grid[i] === "") {
-      solved = false;
-    }
-  }
-  if (!solved) {
-    alert("No solution found :-(")
-  }
 }
 
 function initDisplay() {
@@ -133,7 +194,23 @@ function initDisplay() {
   });
 
   // small sample fill for demo
-  document.getElementById('fill-sample').addEventListener('click', () => {
+  document.getElementById('fill-fast-sample').addEventListener('click', () => {
+    const sample = [
+      '..86....1',
+      '47.5.....',
+      '......495',
+      '....847..',
+      '7..9.6..2',
+      '..671....',
+      '917......',
+      '.....5.27',
+      '2....98..'
+    ];
+    fill(sample);
+  });
+
+  // small sample fill for demo
+  document.getElementById('fill-slow-sample').addEventListener('click', () => {
     const sample = [
       '53..7....',
       '6..195...',
@@ -145,14 +222,33 @@ function initDisplay() {
       '...419..5',
       '....8..79'
     ];
+    fill(sample);
+  });
+
+  document.getElementById('fill-test-sample').addEventListener('click', () => {
+    const sample = [
+      '..6891453', // . instead of 2, . instead of 7
+      '1.3425678', // . instead of 9
+      '845637219',
+      '762519384',
+      '931748562',
+      '458362791',
+      '689274135',
+      '527183946',
+      '314956827'
+    ];
+    fill(sample);
+  });
+
+  function fill(sample) {
     for (let r = 0; r < ROW_LENGTH; r++) {
       for (let c = 0; c < ROW_LENGTH; c++) {
         const ch = sample[r][c];
         const input = tbody.children[r].children[c].firstElementChild;
         input.value = (ch === '.' ? '' : ch);
+        input.disabled = (ch !== '.');
       }
     }
     focusAt(0, 0);
-  });
-
+  }
 }

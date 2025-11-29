@@ -12,3 +12,4 @@
     .cell:focus{outline:2px solid #2b8cff}
     .controls{margin-top:16px;text-align:center}
     button{padding:6px 10px;margin:0 6px}
+    .user-input{color:blue}
