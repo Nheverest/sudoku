@@ -22,4 +22,15 @@ describe('Testing library sudoku.js.', function() {
         expect(getRow(80)).toBe(8);
     });
 
+    it('Should return the correct cell group for a row and a column', function() {
+        expect(getGroupNumber(0,0)).toBe(0);
+        expect(getGroupNumber(2,4)).toBe(1);
+        expect(getGroupNumber(2,2)).toBe(0);
+        expect(getGroupNumber(2,3)).toBe(1);
+        expect(getGroupNumber(4,5)).toBe(4);
+        expect(getGroupNumber(4,6)).toBe(5);
+        expect(getGroupNumber(5,2)).toBe(3);
+        expect(getGroupNumber(5,3)).toBe(4);
+        expect(getGroupNumber(8,8)).toBe(8);
+    });
 });
