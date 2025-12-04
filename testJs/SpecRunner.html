@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head>
+<!-- 
+Arborescence
+  - lib : répertoire de la librairie Jasmine.
+  - spec : répertoire de fichiers de tests JavaScript.
+  - SpecRunner.html : fichier d’exécution des tests.
+
+Description
+Le fichier SpecRunner.html inclut : 
+- les fichiers JavaScript à tester (par ex. WebContent/js/ajax/appelAjaxCommun.js),
+- les fichiers JavaScript de test (par ex. spec/ajax/appelAjaxCommun.js). 
+
+Il suffit de l’ouvrir dans un navigateur pour que les tests s’exécutent. 
+
+Un fichier de test se compose d’un appel à la fonction Jasmine describe, dont les paramètres sont :
+-   la description du test,
+-   une fonction anonyme contenant les différents tests. 
+
+Un test (également appelé spec) est un appel à la fonction Jasmine it, dont les paramètres sont :
+-   le message affiché par le test en cas de réussite
+-   le test proprement dit, avec un appel du type expect(…).toEqual(…))
+Il y a sans doute d’autres fonctions ; à étudier. 
+
+Deux autres fonctions sont disponibles : beforeEach et afterEach, qui sont appelées avant et après l’exécution des spec.
+Un peu comme pour les junit.
+ -->
+  <meta charset="utf-8">
+  <title>Jasmine Spec Runner v3.1.0</title>
+
+  <link rel="shortcut icon" type="image/png" href="lib/jasmine-3.1.0/jasmine_favicon.png">
+  <link rel="stylesheet" href="lib/jasmine-3.1.0/jasmine.css">
+
+  <script src="lib/jasmine-3.1.0/jasmine.js"></script>
+  <script src="lib/jasmine-3.1.0/jasmine-html.js"></script>
+  <script src="lib/jasmine-3.1.0/boot.js"></script>
+  <script src="lib/jquery-matchers.js"></script>
+  <!-- Dépendances -->
+
+  <!-- include source files here... -->
+  <script src="../script/sudoku_algo.js"></script>
+ 
+  <link href="../sudoku.css" type="text/css" rel="stylesheet">
+
+  <!-- include spec files here... -->
+  <script src="spec/sudoku.js"></script>
+  
+</head>
+
+<body>
+</body>
+</html>
