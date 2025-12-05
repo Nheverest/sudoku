@@ -10,8 +10,13 @@ function initGrid() {
 }
 
 function solve() {
+      var startTime = new Date().getTime();
   initGrid();
+
   if (processCell(0)) {
+    if ( console ) {
+        console.log("Duration: " + (new Date().getTime()-startTime) +"ms");
+    }
     displayResult();
   } else {
     // no solution
@@ -26,7 +31,8 @@ function processCell(cellId) {
       if (isValueValidForCell(cellId, i)) {
         found = true;
         grid[cellId] = i;
-        show_console(cellId);
+        // /!\ Heavy load on memory use with caution!
+        //show_console(cellId);
         if (cellId == MAX_CELL_ID - 1) {
           return true;
         }
@@ -45,6 +51,9 @@ function processCell(cellId) {
 }
 
 function show_console(max_val) {
+  if ( ! console ) {
+    return;
+  }
   let str = "";
   for (let k = 0; k < max_val + 1; k++) {
     str += grid[k]
