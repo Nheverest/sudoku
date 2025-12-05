@@ -77,6 +77,21 @@ function initDisplay() {
     fill(sample);
   });
 
+  document.getElementById("fill-extreme-sample").addEventListener('click', () => {
+    const sample = [
+      '.........',
+      '..3...7..',
+      '.2.96..8.',
+      '....3.5..',
+      '7.6....2.',
+      '4.....96.',
+      '.....9.4.',
+      '.5.1....6',
+      '1..4....8'
+    ];
+    fill(sample);
+  });
+
   // small sample fill for demo
   document.getElementById('fill-slow-sample').addEventListener('click', () => {
     const sample = [
